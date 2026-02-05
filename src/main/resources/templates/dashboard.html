@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Adhar Portal - Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 style="margin: 0; font-size: 1.5rem;">User Dashboard</h1>
+            <a href="/logout" class="btn btn-small">Logout</a>
+        </header>
+        <main>
+            <div class="card">
+                <h3>Profile Details</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Username:</span>
+                    <span class="detail-value" th:text="${username}">User</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Full Name:</span>
+                    <span class="detail-value" th:text="${fullName}">John Doe</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Aadhar Number:</span>
+                    <span class="detail-value" th:text="${aadharNumber}">XXXX-XXXX-XXXX</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date of Birth:</span>
+                    <span class="detail-value" th:text="${dob}">01/01/2000</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Address:</span>
+                    <span class="detail-value" th:text="${address}">123 Street</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value" style="color: green;">Active</span>
+                </div>
+            </div>
+
+            <div class="card qlik-card">
+                <h3><span class="qlik-logo">Qlik</span> Sense Analytics</h3>
+                <p><strong>Status:</strong> <span class="badge success">Active</span></p>
+                <div class="qlik-dashboard-placeholder">
+                    <p style="text-align: center; color: #555; padding-top: 40px;">
+                        Loading Qlik Sense Visualization...<br>
+                        <small th:text="${qlikMessage}">Initializing...</small>
+                    </p>
+                </div>
+                <div style="margin-top: 15px; text-align: right;">
+                    <a href="#" class="btn btn-small btn-qlik">Open Full Dashboard</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
