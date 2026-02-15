@@ -1,0 +1,360 @@
+/* New Adhar Design System */
+:root {
+    --bg-color: #050508;
+    --text-color: #e0e0e0;
+    --primary-neon: #00f3ff;
+    --secondary-neon: #bd00ff;
+    --accent-neon: #ff0055;
+    --success-neon: #00ff88;
+    --danger-neon: #ff0033;
+
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    --glass-blur: blur(16px);
+
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    /* Deep Space Background */
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 40%);
+    min-height: 100vh;
+}
+
+/* Glass Component Base */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.glass-panel:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1), var(--glass-shadow);
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+/* User Slabs Grid */
+.slab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.user-slab {
+    padding: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-slab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-neon);
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.user-slab:hover::before {
+    opacity: 1;
+    box-shadow: 0 0 10px var(--primary-neon);
+}
+
+.slab-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.slab-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-neon);
+    object-fit: cover;
+}
+
+.slab-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.slab-id {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: none;
+    /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Glass Modal */
+.admin-modal {
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transform: translateY(50px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.modal-overlay.active .admin-modal {
+    transform: translateY(0);
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    color: var(--text-color);
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 10;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--danger-neon);
+    text-shadow: 0 0 10px var(--danger-neon);
+    transform: rotate(90deg);
+}
+
+/* Modal Content Layout */
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Left Panel: Photo */
+.modal-left {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-right: 1px solid var(--glass-border);
+}
+
+.large-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 4px solid var(--primary-neon);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+    object-fit: cover;
+    margin-bottom: 2rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Right Panel: Details */
+.modal-right {
+    flex: 2;
+    padding: 3rem;
+}
+
+.detail-group {
+    margin-bottom: 2rem;
+}
+
+.detail-label {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--primary-neon);
+    margin-bottom: 0.5rem;
+}
+
+.detail-value {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.id-proof-preview {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px dashed var(--glass-border);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.id-proof-preview img {
+    max-width: 100%;
+    max-height: 150px;
+    border-radius: 4px;
+}
+
+/* Footer Actions */
+.modal-footer {
+    padding: 1.5rem 3rem;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Neon Buttons */
+.neon-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    border: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    background: transparent;
+    color: white;
+    border: 1px solid transparent;
+}
+
+.btn-approve {
+    border-color: var(--success-neon);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.2) inset;
+    color: var(--success-neon);
+}
+
+.btn-approve:hover {
+    background: var(--success-neon);
+    color: black;
+    box-shadow: 0 0 20px var(--success-neon);
+}
+
+.btn-reject {
+    border-color: var(--danger-neon);
+    box-shadow: 0 0 10px rgba(255, 0, 51, 0.2) inset;
+    color: var(--danger-neon);
+}
+
+.btn-reject:hover {
+    background: var(--danger-neon);
+    color: white;
+    box-shadow: 0 0 20px var(--danger-neon);
+}
+
+.btn-remark {
+    border-color: var(--secondary-neon);
+    color: var(--secondary-neon);
+}
+
+.btn-remark:hover {
+    background: var(--secondary-neon);
+    color: white;
+    box-shadow: 0 0 20px var(--secondary-neon);
+}
+
+/* Animations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-body {
+        flex-direction: column;
+    }
+
+    .modal-left {
+        padding: 2rem;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .modal-right {
+        padding: 2rem;
+    }
+
+    .large-avatar {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Dropdown Visibility Fix */
+select {
+    background-color: rgba(5, 5, 8, 0.9) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--glass-border);
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+}
+
+option {
+    background-color: #050508 !important;
+    color: var(--text-color) !important;
+    padding: 10px;
+}

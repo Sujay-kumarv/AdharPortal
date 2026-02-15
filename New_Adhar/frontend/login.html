@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | New Adhar Portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+            --text-color: #e0e0e0;
+            --primary-neon: #00f3ff;
+            --secondary-neon: #bd00ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --danger-color: #ff0055;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(189, 0, 255, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.1) 0%, transparent 25%);
+            overflow: hidden;
+        }
+
+        .login-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 243, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            display: inline-block;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-neon);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .password-toggle:hover {
+            opacity: 1;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        .btn-login:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+
+        .links {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .links a:hover {
+            color: var(--primary-neon);
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            min-height: 1.25em;
+            font-weight: 500;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-login.loading .spinner {
+            display: block;
+        }
+
+        .btn-login.loading span {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 2rem;
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+        <div class="logo">New Adhar</div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <form id="loginForm" autocomplete="off">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="name@example.com" required
+                    autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••" required
+                    autocomplete="new-password">
+                <span class="password-toggle" onclick="togglePassword()">
+                    <!-- Simple SVG Eye Icon -->
+                    <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </span>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <span>Sign In</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+
+        <div class="links">
+            <a href="forgot_password.html">Forgot Password?</a>
+            <p style="margin-top: 10px; opacity: 0.5;">Don't have an account?</p>
+            <a href="registration.html" style="color: var(--primary-neon); font-weight: 600;">Register Here</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8080/api/auth';
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        // Toggle Password Visibility
+        function togglePassword() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
+        }
+
+        // Handle Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMessage.textContent = '';
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                errorMessage.textContent = 'Please fill in all fields.';
+                return;
+            }
+
+            // Set Loading State
+            loginBtn.disabled = true;
+            loginBtn.classList.add('loading');
+
+            try {
+                const response = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success
+                    localStorage.setItem('accessToken', data.accessToken);
+                    const roles = data.roles || '';
+
+                    if (roles.includes('ROLE_ADMIN')) {
+                        window.location.href = 'admin_dashboard.html';
+                    } else if (roles.includes('ROLE_USER')) {
+                        window.location.href = 'user_dashboard.html';
+                    } else {
+                        errorMessage.textContent = 'Unauthorized Role';
+                        loginBtn.disabled = false;
+                        loginBtn.classList.remove('loading');
+                    }
+                } else {
+                    // Failure
+                    errorMessage.textContent = 'Invalid email or password';
+                    loginBtn.disabled = false;
+                    loginBtn.classList.remove('loading');
+                }
+            } catch (error) {
+                console.error("Login Error:", error);
+                if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                    errorMessage.textContent = 'Server unreachable. Is the backend running?';
+                } else {
+                    errorMessage.textContent = `Login failed: ${error.message}`;
+                }
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('loading');
+            }
+        });
+    </script>
+</body>
+
+</html>

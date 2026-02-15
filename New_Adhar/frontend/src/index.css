@@ -1,0 +1,51 @@
+:root {
+  --bg-color: #0a0a0f;
+  --text-color: #e0e0e0;
+  --primary-color: #00f3ff;
+  /* Neon Cyan */
+  --secondary-color: #bd00ff;
+  /* Neon Purple */
+  --accent-color: #ff0055;
+  /* Neon Pink */
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(189, 0, 255, 0.05) 0%, transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.05) 0%, transparent 25%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
